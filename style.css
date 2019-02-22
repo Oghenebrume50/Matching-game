@@ -1,0 +1,39 @@
+#box {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap; 
+    justify-content: center;
+    align-items: center;
+}
+
+div {
+    
+}
+
+.holder {
+    display: flex;
+    border: 1px solid color;
+    width: 9em;
+    height: 9em;
+    background-color: rgb(225, 225, 225);
+    margin: 1em 1em;
+    justify-content: center;
+    align-items: center;
+    transition: all 1s ease-in-out;
+}
+
+.imgHide {
+    display: none;
+}
+
+.spin {  
+    transform: rotateY(180deg)
+}
+
+.revSpin {  
+    transform: rotateY(0deg)
+}
+
+.image {
+    
+}
