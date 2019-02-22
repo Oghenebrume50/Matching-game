@@ -29,11 +29,3 @@ div {
 .spin {  
     transform: rotateY(180deg)
 }
-
-.revSpin {  
-    transform: rotateY(0deg)
-}
-
-.image {
-    
-}

@@ -30,7 +30,6 @@ holder.forEach(function(imgHolder,i) {
     imgHolder.innerHTML = "<img src='images/defaultIcon.png' class='image'>";
     imgHolder.innerHTML += `<img src='images/${randomized[i]}.png' class=imgHide>`;
     
-    console.log(imgHolder);
     imgHolder.addEventListener("click", handleClick);
     //        
             
@@ -56,14 +55,17 @@ function handleClick() {
     console.log(`index ${this.id - 1}`, "random "+randomized[this.id - 1], "count"+objImages.count, "arr"+objImages.images.length);
     if (objImages.count === 1) {
         objImages.tempIndex = randomized[this.id - 1];
+        console.log(".....",objImages.tempIndex)
     }
     else if (objImages.count === 2) {
         objImages.tempIndex2 = randomized[this.id - 1];
         if (objImages.tempIndex !== objImages.tempIndex2) {
             setTimeout(() => { 
                  objImages.images.forEach(function (openedImage) {
-                    openedImage.innerHTML = "<img src='images/defaultIcon.png' class='image'>";
                     openedImage.classList.remove("spin");
+                    openedImage.children[1].classList.add("imgHide");
+                    openedImage.children[0].classList.remove("imgHide")
+                    //openedImage.innerHTML = "<img src='images/defaultIcon.png' class='image'>";
                 })
                 objImages.count = 0;
                 objImages.images = [];
@@ -72,10 +74,16 @@ function handleClick() {
             
         }
         else {
-                objImages.images.forEach(function (openedImage) {
-                    openedImage.removeEventListener("click",handleClick)
-                })
-            }
+            objImages.images.forEach(function (openedImage) {
+                openedImage.removeEventListener("click",handleClick)
+                
+                console.log("ttttt",objImages.images.length, objImages.count)
+            })
+            objImages.count = 0;
+            objImages.images = [];
+            console.log("tt8888",objImages.images.length, objImages.count)
+        }
     }
+    
     
 }
