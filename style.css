@@ -6,10 +6,6 @@
     align-items: center;
 }
 
-div {
-    
-}
-
 .holder {
     display: flex;
     border: 1px solid color;
@@ -28,4 +24,11 @@ div {
 
 .spin {  
     transform: rotateY(180deg)
+}
+
+.controls {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
 }
