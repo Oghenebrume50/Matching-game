@@ -1,9 +1,6 @@
 "use strict";
 var holder = document.querySelectorAll(".holder");
 console.log(holder)
-var images = ["1.png","2.png","3.png","4.png","5.png","6.png","7.png","8.png","9.png","10.png"];
-
-
 
 var randomized = []
 while(randomized.length < 20){
@@ -23,7 +20,8 @@ var objImages = {
     images: [],
     count: 0,
     tempIndex: "",
-    tempIndex2: ""
+    tempIndex2: "",
+    score: 0
 };
 
 holder.forEach(function(imgHolder,i) {
@@ -31,24 +29,21 @@ holder.forEach(function(imgHolder,i) {
     imgHolder.innerHTML += `<img src='images/${randomized[i]}.png' class=imgHide>`;
     
     imgHolder.addEventListener("click", handleClick);
-    //        
-            
-    //     }
-    // })
-    
 })
 
 function handleClick() {
     console.log(this.id);
     objImages.count++;
     objImages.images.push(this);
+    objImages.score += 5;
 
+    console.log("score", objImages.score);
     this.className +=" spin";
     
     console.log(this.children[1].classList)
 
     setTimeout(() => {
-        this.children[1].classList.remove("imgHide")//.innerHTML = `<img src=images/${randomized[index]}.png class=image>`;
+        this.children[1].classList.remove("imgHide")
         this.children[0].classList.add("imgHide")
     }, 500)
 
@@ -69,7 +64,7 @@ function handleClick() {
                 })
                 objImages.count = 0;
                 objImages.images = [];
-            }, 1000)
+            }, 700)
                
             
         }
@@ -81,7 +76,6 @@ function handleClick() {
             })
             objImages.count = 0;
             objImages.images = [];
-            console.log("tt8888",objImages.images.length, objImages.count)
         }
     }
     
