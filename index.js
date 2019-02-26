@@ -1,11 +1,13 @@
 "use strict";
 var holder = document.querySelectorAll(".holder");
 var reset = document.querySelector("#reset");
-
+var timeCounter = document.querySelector("#timeCounter");
+var clicksCounter = document.querySelector("#clicksCounter");
 reset.addEventListener("click", resetGame);
 
 var randomized = []
 
+var resolved = [];
 
 console.log(randomized);
 
@@ -14,8 +16,23 @@ var objImages = {
     count: 0,
     tempIndex: "",
     tempIndex2: "",
-    score: 0
+    score: 0,
+    timeElapsed: 0,
+    clicks: 0
 };
+
+function gameOver() {
+    if (resolved.length !== 0 && resolved.length === randomized.length ) {
+        console.log("gameOver");
+    }
+}
+
+gameOver();
+
+setInterval(function () {
+    objImages.timeElapsed += 1;
+    timeCounter.innerHTML = objImages.timeElapsed;
+},1000)
 
 function init () {
     while(randomized.length < 20){
@@ -34,6 +51,7 @@ function init () {
         imgHolder.innerHTML += `<img src='images/${randomized[i]}.png' class=imgHide>`;
         imgHolder.classList.remove("spin");
         
+        
         imgHolder.addEventListener("click", handleClick);
     })
 }
@@ -50,12 +68,20 @@ function resetGame () {
     objImages.tempIndex = "";
     objImages.tempIndex2 = "";
     objImages.score = 0;
+    objImages.clicks = 0;
+    objImages.timeElapsed = 0;
+
+    clicksCounter.innerHTML = objImages.clicks;
 }
 
 function handleClick() {
     objImages.count++;
     objImages.images.push(this);
     objImages.score += 5;
+    objImages.clicks += 1;
+
+    clicksCounter.innerHTML = objImages.clicks;
+    
 
     this.className +=" spin";
 
@@ -66,8 +92,10 @@ function handleClick() {
 
     if (objImages.count === 1) {
         objImages.tempIndex = randomized[this.id - 1];
+        objImages.images[objImages.images.length - 1].removeEventListener("click",handleClick);
     }
     else if (objImages.count === 2) {
+        objImages.images[objImages.images.length - 2].addEventListener("click",handleClick);
         objImages.tempIndex2 = randomized[this.id - 1];
         if (objImages.tempIndex !== objImages.tempIndex2) {
             setTimeout(() => { 
@@ -85,9 +113,11 @@ function handleClick() {
         else {
             objImages.images.forEach(function (openedImage) {
                 openedImage.removeEventListener("click",handleClick)
+                resolved.push(openedImage);
             })
             objImages.count = 0;
             objImages.images = [];
+            gameOver();
         }
     }
     
