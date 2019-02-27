@@ -1,0 +1,16 @@
+/* //popup.html */
+
+#play {
+    width: 100%;
+    height: 2em;
+    background-color: goldenrod;
+    border: 1px solid goldenrod;
+    border-radius: .4em;
+    font-size: 2em;
+    font-weight: 200;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}

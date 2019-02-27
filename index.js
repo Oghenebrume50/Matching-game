@@ -11,6 +11,15 @@ var resolved = [];
 
 console.log(randomized);
 
+var objBegin = {
+    type: "basic",
+    title: "Begin",
+    message: "Enjoy playing",
+    iconUrl: "icon.png"
+}
+
+chrome.notifications.create("Begin", objBegin, function(){})
+
 var objImages = {
     images: [],
     count: 0,
@@ -23,11 +32,41 @@ var objImages = {
 
 function gameOver() {
     if (resolved.length !== 0 && resolved.length === randomized.length ) {
-        console.log("gameOver");
+
+        chrome.storage.sync.get("bestTime", function(items) {
+            var newTime = objImages.timeElapsed;
+
+            if (newTime && items.bestTime) {
+                if (newTime < items.bestTime) {
+                    chrome.storage.sync.set({"bestTime": newTime});
+
+                    var opt = {
+                        type: "basic",
+                        title: "Best Time!",
+                        message: "You are the champion, finished in the best time so far "+newTime+ "secs",
+                        iconUrl: "icon.png"
+                    }
+        
+                    chrome.notifications.create("BestTime", opt, function(){})
+                }
+            }
+            else {
+                var opt = {
+                    type: "basic",
+                    title: "First Time!",
+                    message: "You are the first, finished in "+objImages.timeElapsed+" secs",
+                    iconUrl: "icon.png"
+                }
+
+                chrome.storage.sync.set({"bestTime": newTime});
+                chrome.notifications.create("firstTime", opt, function(){})
+            }
+            
+            chrome.storage.sync.set({"time": objImages.timeElapsed, "clicks": objImages.clicks});
+        })
+        
     }
 }
-
-gameOver();
 
 setInterval(function () {
     objImages.timeElapsed += 1;
@@ -120,6 +159,4 @@ function handleClick() {
             gameOver();
         }
     }
-    
-    
 }
